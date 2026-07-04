@@ -39,6 +39,8 @@
 yay -S flow-network-monitor-bin
 ```
 
+💝 Thanks to [@Dominiquini](https://github.com/Dominiquini) for assisting in AUR deployment!
+
 2. Go:
 
 ```sh
