@@ -24,17 +24,28 @@ flow adapts to your terminal width with three distinct views.
 
 ## Anatomy
 
-The UI is intentionally minimal:
+The UI is intentionally minimal and centered both axes:
 
-- Large centered breathing title row (`● FLOW`) that scales to a multi-line ASCII art logo on larger terminals.
-- Clean stacked panels separating download and upload statistics, wrapped in custom rounded borders.
-- Speed-reactive glowing borders (transitions from dark slate/forest to bright cyan/emerald under load).
-- High-resolution U+2800 Braille-grid waveforms scrolling horizontally with sub-pixel precision.
-- Velocity glyphs (↗ ↘ →) next to values indicating trend directions.
+```mermaid
+flowchart TD
+    Title["● flow"]
+    Download["╭─ DOWNLOAD ───────────────────────╮<br/>│ ↓ 124.8 MB/s ↗    Peak: 382.0 MB/s │<br/>│ ⢀⣀⣠⣴⣶⣾⣿⣿⣿⣿⋯ │<br/>╰──────────────────────────────────╯"]
+    Upload["╭─ UPLOAD ─────────────────────────╮<br/>│ ↑ 14.6 MB/s ↘     Peak: 56.0 MB/s │<br/>│ ⢀⣀⣠⣴⣶⣾⣿⣿⣿⣿⋯ │<br/>╰──────────────────────────────────╯"]
+    Info["today ↓ 21.8 GB · today ↑ 4.6 GB · wlan0"]
+    Footer["q quit · r reset · i interface · c units · ? help"]
+
+    Title --> Download
+    Download --> Upload
+    Upload --> Info
+    Info --> Footer
+```
+
+- Large centered breathing title row that scales to a multi-line ASCII art logo on larger terminals.
+- Clean stacked panels separating download and upload statistics, wrapped in custom rounded borders with speed-reactive glow (transitions from dark slate/forest to bright cyan/emerald under load).
+- High-resolution U+2800 Braille-grid waveforms scrolling horizontally with sub-pixel precision at 30 FPS.
+- Velocity glyphs (↗ ↘ →) next to values indicating trend direction.
 - Session peaks (flashes white on updates) and daily totals in a clean info bar.
-- Quiet footer with interface and keybindings.
-
-The layout is centered in both X and Y and designed to feel premium before it feels technical.
+- Quiet footer with interface name and keybindings.
 
 ## Install
 
@@ -55,15 +66,21 @@ Pre-built binaries for Linux, macOS, Windows (amd64/arm64) are on the
 
 ## Philosophy
 
+```mermaid
+flowchart LR
+    Input["Network Throughput"] --> Q{"Understood in<br/>under 1 second?"}
+    Q -->|Yes| Keep["Keep Feature"]
+    Q -->|No| Cut["Cut It"]
+    Keep --> Result["Calm · Expensive · Minimal"]
+    Cut --> Result
+```
+
 > Does this help someone understand their network in under one second?
 > If no — cut it.
 
-flow stays deliberately small. No CPU panels, no packet counters, no
-multi-pane layouts. Download and upload throughput, in real time,
-nothing else.
+flow stays deliberately small. No CPU panels, no packet counters, no multi-pane layouts. Download and upload throughput, in real time, nothing else.
 
-The interface is built to feel calm and expensive: large typography,
-soft gradients, spring-driven motion, and restrained decoration.
+The interface is built to feel calm and expensive: large typography, soft gradients, spring-driven motion, and restrained decoration.
 
 ## Features
 
@@ -151,17 +168,26 @@ no_color  = false
 
 ## Architecture
 
-Two decoupled loops:
+Two decoupled loops connected by a channel:
 
-- **Sampling loop** (~10 Hz): reads OS network counters, computes a
-  sliding-window average, emits a sample on a channel.
-- **Render loop** (~30 fps): springs display values toward the latest
-  sample, decays brief pulses, and renders the dashboard.
+```mermaid
+flowchart LR
+    subgraph Sampling["Sampling Loop (~10 Hz)"]
+        OS["/proc/net/dev · sysctl · GetIfTable2"] --> SlidingWindow["Sliding-Window Average<br/>(last N samples)"]
+        SlidingWindow --> Channel["Channel&lt;Sample&gt;"]
+    end
 
-The model keeps rendering separate from collection so the UI can stay
-smooth without adding work to the sampler.
+    subgraph Rendering["Render Loop (~30 fps)"]
+        Channel --> Spring["Spring Interpolation<br/>(smooth value animation)"]
+        Spring --> Display["Dashboard Render<br/>(Bubble Tea TUI)"]
+        Theme["Theme Config"] -.-> Display
+    end
+```
 
-Idle CPU stays well under 1%.
+- **Sampling loop** (~10 Hz): reads OS network counters via gopsutil, computes a sliding-window average, emits a sample on a channel.
+- **Render loop** (~30 fps): springs display values toward the latest sample, decays brief pulses, clears the terminal, and renders the full dashboard.
+
+The model keeps rendering separate from collection so the UI can stay smooth without adding work to the sampler. Idle CPU stays well under 1%.
 
 ## Platform notes
 
