@@ -39,7 +39,7 @@ The layout is centered in both X and Y and designed to feel premium before it fe
 ## Install
 
 ```sh
-go install github.com/programmersd21/flow@latest
+go install github.com/programmersd21/flow/cmd/flow@latest
 ```
 
 Or build from source:
