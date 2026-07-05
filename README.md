@@ -265,17 +265,41 @@ make release-dry # goreleaser snapshot build, no publish
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
 
-## 💙 Community
+## 💙 Community & Support
 
-Thank you to everyone who has contributed to or supported flow. Whether you've starred the repository, reported an issue, submitted a pull request, or shared the project with others, your support is greatly appreciated.
+Thank you to everyone who has supported **flow**. Whether you've starred the repository, reported an issue, submitted a pull request, shared the project, or simply use it every day—your support is what keeps the project growing.
 
-#### ⭐ Stargazers
+### ⭐ Stargazers
 
 <p align="center">
   <a href="https://github.com/programmersd21/flow/stargazers">
     <img src="https://readme-contribs.as93.net/stargazers/programmersd21/flow" alt="Stargazers of flow">
   </a>
 </p>
+
+### ❤️ Sponsor
+
+If **flow** has made your terminal a little better, please consider sponsoring its development on GitHub.
+
+Your sponsorship helps support:
+
+- 🚀 New features
+- 🐛 Bug fixes
+- ⚡ Performance improvements
+- 📖 Better documentation
+- 🛠️ Long-term maintenance
+
+If you're unable to sponsor, you can still make a huge difference by:
+
+- ⭐ Starring the repository
+- 📢 Sharing **flow** with others
+- 💬 Recommending it to friends and colleagues
+- 🐞 Reporting bugs or suggesting improvements
+- 🤝 Contributing code or documentation
+
+Every contribution, no matter how small, helps **flow** continue to grow.
+
+**Thank you for supporting open source. ❤️**
 
 ## License
 
