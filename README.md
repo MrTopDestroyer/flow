@@ -4,34 +4,48 @@
 
 *A terminal dashboard for real-time network throughput.*
 
-</div>
-
 <img src="./docs/demo.gif" alt="flow demo" width="100%">
+
+<h3 align="center">
+  Your Internet Stats, TUIfied.
+</h3>
+
+<p align="center">
+  <i>Fast • Beautiful • Cross-Platform • Open Source</i>
+</p>
+
+</div>
 
 <p align="center">
   <a href="https://github.com/programmersd21/flow/actions">
-    <img src="https://img.shields.io/github/actions/workflow/status/programmersd21/flow/release.yml?style=for-the-badge&logo=githubactions&label=Build&labelColor=000000&color=00d4aa" alt="Build">
-  </a>
-  <a href="https://github.com/programmersd21/flow">
-    <img src="https://img.shields.io/github/go-mod/go-version/programmersd21/flow?style=for-the-badge&logo=go&labelColor=000000&color=4488ff" alt="Go Version">
-  </a>
-  <a href="https://github.com/programmersd21/flow/blob/main/LICENSE">
-    <img src="https://img.shields.io/github/license/programmersd21/flow?style=for-the-badge&labelColor=000000&color=88cc44" alt="License">
+    <img src="https://img.shields.io/github/actions/workflow/status/programmersd21/flow/release.yml?style=for-the-badge&logo=githubactions&logoColor=white&label=Build&labelColor=111111&color=00c853" alt="Build">
   </a>
   <a href="https://github.com/programmersd21/flow/releases">
-    <img src="https://img.shields.io/github/v/release/programmersd21/flow?style=for-the-badge&labelColor=000000&color=ff6644" alt="Release">
+    <img src="https://img.shields.io/github/v/release/programmersd21/flow?style=for-the-badge&logo=github&logoColor=white&label=Release&labelColor=111111&color=ff6d00" alt="Release">
   </a>
   <a href="https://github.com/programmersd21/flow/releases">
-    <img src="https://img.shields.io/github/downloads/programmersd21/flow/total?style=for-the-badge&labelColor=000000&color=bb44ff" alt="Downloads">
+    <img src="https://img.shields.io/github/downloads/programmersd21/flow/total?style=for-the-badge&logo=github&logoColor=white&label=Downloads&labelColor=111111&color=8e24aa" alt="Downloads">
   </a>
   <a href="https://github.com/programmersd21/flow/stargazers">
-    <img src="https://img.shields.io/github/stars/programmersd21/flow?style=for-the-badge&labelColor=000000&color=ffcc00" alt="Stars">
+    <img src="https://img.shields.io/github/stars/programmersd21/flow?style=for-the-badge&logo=github&logoColor=white&label=Stars&labelColor=111111&color=fbc02d" alt="Stars">
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/programmersd21/flow">
+    <img src="https://img.shields.io/github/go-mod/go-version/programmersd21/flow?style=for-the-badge&logo=go&logoColor=white&label=Go&labelColor=111111&color=2196f3" alt="Go Version">
+  </a>
+  <a href="https://github.com/programmersd21/flow/blob/main/LICENSE">
+    <img src="https://img.shields.io/github/license/programmersd21/flow?style=for-the-badge&label=License&labelColor=111111&color=43a047" alt="License">
   </a>
   <a href="https://github.com/programmersd21/homebrew-flow">
-    <img src="https://img.shields.io/badge/Homebrew-programmersd21%2Fflow%2Fflow-FBB040?style=for-the-badge&logo=homebrew&labelColor=000000" alt="Homebrew">
+    <img src="https://img.shields.io/badge/Homebrew-brew%20install%20programmersd21%2Fflow%2Fflow?style=for-the-badge&logo=homebrew&logoColor=white&labelColor=111111&color=fbb040" alt="Homebrew">
   </a>
   <a href="https://aur.archlinux.org/packages/flow-network-monitor-bin">
-    <img src="https://img.shields.io/aur/version/flow-network-monitor-bin?style=for-the-badge&logo=archlinux&labelColor=000000&color=1793d1" alt="AUR Version">
+    <img src="https://img.shields.io/aur/version/flow-network-monitor-bin?style=for-the-badge&logo=archlinux&logoColor=white&label=AUR&labelColor=111111&color=1793d1" alt="AUR Version">
+  </a>
+  <a href="https://aur.archlinux.org/packages/flow-network-monitor-bin">
+    <img src="https://img.shields.io/aur/popularity/flow-network-monitor-bin?style=for-the-badge&logo=archlinux&logoColor=white&label=Popularity&labelColor=111111&color=1976d2" alt="AUR Popularity">
   </a>
 </p>
 
@@ -250,16 +264,6 @@ make release-dry # goreleaser snapshot build, no publish
 ```
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
-
-## Star History
-
-<a href="https://www.star-history.com/?repos=programmersd21%2Fflow&type=date&legend=top-left">
- <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=programmersd21/flow&type=date&theme=dark&legend=top-left" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=programmersd21/flow&type=date&legend=top-left" />
-   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=programmersd21/flow&type=date&legend=top-left" />
- </picture>
-</a>
 
 ## License
 
