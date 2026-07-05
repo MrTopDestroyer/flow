@@ -99,6 +99,11 @@ Pre-built binaries for Linux, macOS, and Windows (amd64 and arm64) are available
 
 Most network monitors display CPU usage, per-process breakdowns, packet counts, and connection tables. flow displays throughput only.
 
+| btop | flow |
+|:---:|:---:|
+| <img src="./docs/btop.png" alt="btop"> | <img src="./docs/flow.png" alt="flow"> |
+| CPU, memory, disks, processes, network | throughput only |
+
 Every feature decision is evaluated against a single question: does this help the user understand their network within one second. If not, it is not included.
 
 The result is a small, deliberately scoped tool. There are no additional panels, no required configuration, and no unnecessary complexity in either the interface or the underlying implementation.
