@@ -192,6 +192,8 @@ flow --help
 
 ### tmux integration
 
+![tmux](docs/tmux.png)
+
 ```sh
 # ~/.tmux.conf
 set -g status-right "#(flow --tiny --no-color)"
