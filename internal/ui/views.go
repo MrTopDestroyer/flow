@@ -27,7 +27,106 @@ func renderTiny(m Model) string {
 	lbl := theme.Label()
 	left := lbl.Render("↓ download") + " " + theme.ValuePrimary(downRatio, true).Render(m.FormatBps(m.dispDown))
 	right := lbl.Render("↑ upload") + " " + theme.ValuePrimary(upRatio, false).Render(m.FormatBps(m.dispUp))
-	return left + "   " + right
+	line := left + "   " + right
+	if m.width > 0 {
+		return centerInline(line, m.width)
+	}
+	return line
+}
+
+func renderProcesses(m Model) string {
+	termW := m.width
+	if termW <= 0 {
+		termW = 80
+	}
+	termH := m.height
+	if termH <= 0 {
+		termH = 24
+	}
+
+	contentW := min(termW-4, heroInnerMaxWidth)
+	if contentW < 40 {
+		contentW = max(termW-2, 40)
+	}
+
+	title := lipgloss.NewStyle().
+		Foreground(lipgloss.Color("#f8fafc")).
+		Bold(true).
+		Render("network processes")
+
+	var lines []string
+	lines = append(lines, "  "+title)
+	lines = append(lines, "")
+
+	if len(m.procs) == 0 {
+		muted := theme.Muted().Render("no active network processes detected")
+		pad := (contentW - lipgloss.Width(muted)) / 2
+		if pad < 0 {
+			pad = 0
+		}
+		lines = append(lines, strings.Repeat(" ", pad)+muted)
+	} else {
+		// Truncate to top entries that fit the terminal height
+		maxRows := termH - 8
+		if maxRows < 5 {
+			maxRows = 5
+		}
+		list := m.procs
+		if len(list) > maxRows {
+			list = list[:maxRows]
+		}
+
+		// Column widths
+		pidW := 7
+		nameW := contentW - pidW - 16
+		if nameW < 10 {
+			nameW = 10
+		}
+
+		headerKey := lipgloss.NewStyle().
+			Foreground(lipgloss.Color("#a5b4fc")).
+			Bold(true)
+		headerMuted := theme.Muted()
+
+		header := fmt.Sprintf("  %s  %s  %s",
+			headerKey.Render(fmt.Sprintf("%-*s", pidW, "PID")),
+			headerKey.Render(fmt.Sprintf("%-*s", nameW, "Process")),
+			headerKey.Render(fmt.Sprintf("%*s", 7, "Conns")))
+
+		sep := theme.Dim().Render(strings.Repeat("─", contentW-2))
+		lines = append(lines, "  "+sep)
+		lines = append(lines, header)
+		lines = append(lines, "  "+sep)
+
+		for _, p := range list {
+			pidStr := fmt.Sprintf("%-*d", pidW, p.PID)
+			nameStr := fmt.Sprintf("%-*s", nameW, truncate(p.Name, nameW))
+			connStr := fmt.Sprintf("%*d", 7, p.Connections)
+
+			row := fmt.Sprintf("  %s  %s  %s",
+				headerMuted.Render(pidStr),
+				theme.Accent().Render(nameStr),
+				headerKey.Render(connStr))
+			lines = append(lines, row)
+		}
+		lines = append(lines, "  "+sep)
+	}
+
+	lines = append(lines, "")
+	lines = append(lines, "  "+theme.Dim().Render("press n to return"))
+
+	content := strings.Join(lines, "\n")
+	return centerFrame(content, termW, termH)
+}
+
+func truncate(s string, max int) string {
+	w := lipgloss.Width(s)
+	if w <= max {
+		return s
+	}
+	runes := []rune(s)
+	result := string(runes[:max-1]) + "…"
+	return result
 }
 
 func renderHelp(m Model) string {
@@ -38,6 +137,7 @@ func renderHelp(m Model) string {
 	bindings := []binding{
 		{"q", "quit"},
 		{"m", "cycle view mode"},
+		{"n", "network processes"},
 		{"r", "reset peaks"},
 		{"i", "cycle interface"},
 		{"c", "cycle units"},
@@ -230,21 +330,31 @@ func renderDashboard(m Model, mode ViewMode) string {
 		dotSep := theme.Dim().Render(" · ")
 
 		var keys []string
-		if contentW >= 75 {
+		if contentW >= 80 {
 			keys = []string{
 				renderKey("q", "quit"),
 				renderKey("m", "mode"),
+				renderKey("n", "procs"),
 				renderKey("r", "reset"),
 				renderKey("i", "iface"),
 				renderKey("c", "unit"),
 				renderKey("p", "pause"),
 				renderKey("?", "help"),
 			}
-		} else if contentW >= 55 {
+		} else if contentW >= 65 {
 			keys = []string{
 				renderKey("q", "quit"),
 				renderKey("m", "mode"),
+				renderKey("n", "procs"),
 				renderKey("r", "reset"),
+				renderKey("p", "pause"),
+				renderKey("?", "help"),
+			}
+		} else if contentW >= 50 {
+			keys = []string{
+				renderKey("q", "quit"),
+				renderKey("m", "mode"),
+				renderKey("n", "procs"),
 				renderKey("p", "pause"),
 				renderKey("?", "help"),
 			}

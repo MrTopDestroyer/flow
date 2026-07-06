@@ -13,12 +13,15 @@ import (
 	"github.com/programmersd21/flow/internal/collector"
 	"github.com/programmersd21/flow/internal/config"
 	"github.com/programmersd21/flow/internal/history"
+	"github.com/programmersd21/flow/internal/processes"
 	"github.com/programmersd21/flow/internal/sampler"
 )
 
 type tickMsg struct{}
 
 type sampleMsg sampler.Sample
+
+type processesMsg []processes.Info
 
 const (
 	slopeWindow = 6
@@ -61,10 +64,12 @@ type Model struct {
 	upHist   *history.Ring
 	tracker  *history.Tracker
 
-	paused   bool
-	showHelp bool
-	unitMode UnitMode
-	viewMode ViewMode
+	paused        bool
+	showHelp      bool
+	showProcesses bool
+	unitMode      UnitMode
+	viewMode      ViewMode
+	procs         []processes.Info
 
 	width, height   int
 	refreshInterval time.Duration
@@ -119,7 +124,7 @@ func New(
 }
 
 func (m Model) Init() tea.Cmd {
-	return tea.Batch(waitForSample(m.smp.Out), tick())
+	return tea.Batch(waitForSample(m.smp.Out), tick(), refreshProcesses())
 }
 
 func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
@@ -138,6 +143,10 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.downPulse = math.Max(0, m.downPulse-0.08)
 		m.upPulse = math.Max(0, m.upPulse-0.08)
 		return m, tick()
+
+	case processesMsg:
+		m.procs = msg
+		return m, nil
 
 	case sampleMsg:
 		if msg.Err != nil {
@@ -181,6 +190,12 @@ func (m Model) handleKey(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 
 	case key.Matches(msg, m.keys.Mode):
 		m.viewMode = (m.viewMode + 1) % 4
+
+	case key.Matches(msg, m.keys.Processes):
+		m.showProcesses = !m.showProcesses
+		if m.showProcesses {
+			return m, refreshProcesses()
+		}
 
 	case key.Matches(msg, m.keys.Pause):
 		m.paused = !m.paused
@@ -233,6 +248,9 @@ func (m Model) handleKey(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 func (m Model) View() string {
 	if m.showHelp {
 		return renderHelp(m)
+	}
+	if m.showProcesses {
+		return renderProcesses(m)
 	}
 	switch m.effectiveViewMode() {
 	case ViewTiny:
@@ -329,4 +347,17 @@ func tick() tea.Cmd {
 
 func (m Model) Err() error {
 	return m.err
+}
+
+func refreshProcesses() tea.Cmd {
+	return func() tea.Msg {
+		list, err := processes.List()
+		if err != nil {
+			return processesMsg(nil)
+		}
+		if list == nil {
+			return processesMsg(nil)
+		}
+		return processesMsg(list)
+	}
 }

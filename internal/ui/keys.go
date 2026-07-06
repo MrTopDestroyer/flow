@@ -10,6 +10,7 @@ type KeyMap struct {
 	Pause     key.Binding
 	Help      key.Binding
 	Mode      key.Binding
+	Processes key.Binding
 }
 
 func DefaultKeyMap() KeyMap {
@@ -41,6 +42,10 @@ func DefaultKeyMap() KeyMap {
 		Mode: key.NewBinding(
 			key.WithKeys("m"),
 			key.WithHelp("m", "cycle view mode"),
+		),
+		Processes: key.NewBinding(
+			key.WithKeys("n"),
+			key.WithHelp("n", "network processes"),
 		),
 	}
 }

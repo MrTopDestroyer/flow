@@ -134,10 +134,11 @@ flow adjusts its display according to terminal width and height.
 | hero | compact | mini | tiny |
 |:---:|:---:|:---:|:---:|
 | <img src="./docs/normal_mode.png" alt="hero mode"> | <img src="./docs/compact_mode.png" alt="compact mode"> | <img src="./docs/mini_mode.png" alt="mini mode"> | <img src="./docs/tiny_mode.png" alt="tiny mode"> |
-| Full dashboard with logo branding, waveforms, peaks, and daily totals | Cleaner layout with title row, waveforms, peaks, and daily totals | Graphs-only layout, hiding header logo, today's summary, and help footers | Single-line output, intended for status bars |
+| Full dashboard with logo branding, waveforms, peaks, and daily totals | Cleaner layout with title row, waveforms, peaks, and daily totals | Graphs-only layout, hiding header logo, today's summary, and help footers | Single-line output, intended for status bars; centered when toggled inside the TUI with `m` |
 
 ## Features
 
+- Network processes panel — press `n` to view active processes sorted by connection count
 - Real-time download and upload throughput
 - Interpolated display values using spring-based animation
 - Braille-grid waveform rendering at 30 frames per second
@@ -178,6 +179,7 @@ flow --help
 |-------------|-----------------------------|
 | `q` / `^C`  | Quit                         |
 | `m`         | Cycle display/view modes    |
+| `n`         | Toggle network processes panel |
 | `r`         | Reset session peaks          |
 | `i`         | Cycle network interfaces     |
 | `c`         | Cycle display units          |

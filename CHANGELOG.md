@@ -1,3 +1,17 @@
+## [0.1.2] - 2026-07-05
+
+### Added
+
+- Network Processes panel — press `n` to view active network processes sorted by connection count
+- Per-process connection count tracking via gopsutil (cross-platform)
+- Graceful fallback on platforms without per-process bandwidth APIs
+- Friendly message when no active network processes are detected
+
+### Improved
+
+- In-TUI Tiny Mode (`m` key) now renders centered in the terminal viewport instead of appearing at the top-left corner
+- Footer key hints updated to include the new `n` shortcut
+
 ## [0.1.1] - 2026-07-05
 
 ### Added
